@@ -139,7 +139,7 @@ class Goodreads {
 
     /**
     * getBooks()
-    * Gets found books for Goodread's user and shelf, returns them to client code.
+    * Gets found books for Goodreads user and shelf, returns them to client code.
     * self::init() initializes static properties for settings 
     *
     * @return array Returns an array of formatted books to client code
