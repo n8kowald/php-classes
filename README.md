@@ -1,7 +1,8 @@
 PHP Classes
 ===========
 
-## Goodreads.class.php
-Class to get books from a Goodreads user and shelf.  
+### goodreads/Goodreads.class.php
+Displays a user's Goodreads books.  
+Customise by: user id, shelf, no shown, format them how you like.
 
 
