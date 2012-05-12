@@ -53,7 +53,7 @@ class Goodreads {
 		self::$num_books = 5;
 		
 		/* Cache settings */
-		self::$cache_dir = '/home/nathanko/application/cache/';
+		self::$cache_dir = '';
 		self::$cachelife_secs = 604800; // 1 week
 		self::$cachefile = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
 		
