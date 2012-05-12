@@ -14,21 +14,20 @@ class Goodreads {
     private static $shelf;
     private static $num_books;
     private static $cache_dir;
-    private static $cachefile;
-    private static $cachelife_secs;
+    private static $cache_file;
+    private static $cache_life_secs;
 	
     /**
     * init()
     * Initialises settings
     *
-    * @staticvar integer $num_books         Number of books to display 
-    * @staticvar integer $goodreads_id      Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
-    * @staticvar string $shelf              The shelf to get books from e.g. currently-reading, read, to-read, favorites
-    *
-    * @staticvar string $cache_dir          Set a directory to save cache files to e.g. /home/user/public_html/cache/
-    *                                       If left blank it will save cache files to the current working directory
-    * @staticvar integer $cachelife_secs    Time (in seconds) that cache files should last for
-    * @staticvar string $cachefile          Builds the cachefile string. Format: 4609321-currently-reading.cache
+    * @staticvar integer $num_books        Number of books to display 
+    * @staticvar integer $goodreads_id     Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
+    * @staticvar string $shelf             The shelf to get books from e.g. currently-reading, read, to-read, favorites
+    * @staticvar string $cache_dir         Set a directory to save cache files to e.g. /home/user/public_html/cache/
+    *                                      If left blank it will save cache files to the current working directory
+    * @staticvar integer $cache_life_secs  Time (in seconds) that cache files should last for
+    * @staticvar string $cache_file        Builds the cache_file string. Format: 4609321-currently-reading.cache
     */
     private function init() {
         self::$goodreads_id = 4609321;
@@ -36,8 +35,8 @@ class Goodreads {
         self::$num_books = 5;
         /* Cache settings */
         self::$cache_dir = '';
-        self::$cachelife_secs = 604800; // 1 week
-        self::$cachefile = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
+        self::$cache_life_secs = 604800; // 1 week
+        self::$cache_file = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
     }
 
     /**
@@ -56,13 +55,13 @@ class Goodreads {
 	
     /**
     * cachefileExists()
-    * Checks that a given cachefile exists on the server and is less than 1 week old
+    * Checks that a given cache_file exists on the server and is less than 1 week old
     *
-    * @param string $cachefile Path and name of cachefile to look for
-    * @return bool True if cachefile exists: False if not
+    * @param string $cache_file Path and name of cache_file to look for
+    * @return bool True if cache_file exists: False if not
     */
-    private function cachefileExists($cachefile) {
-		if (file_exists($cachefile) && (filemtime($cachefile) > (time() - self::$cachelife_secs))) {
+    private function cachefileExists($cache_file) {
+		if (file_exists($cache_file) && (filemtime($cache_file) > (time() - self::$cache_life_secs))) {
 			return true;
 		} else {
 			return false;
@@ -112,16 +111,16 @@ class Goodreads {
 	
     /**
     * getBooksFromShelf()
-    * Gets the array of books from a cachefile if found (and less than a week old).
-    * If no cachefile is found it creates this array of books and adds them to the cachefile - for fast loading next time
+    * Gets the array of books from a cache_file if found (and less than a week old).
+    * If no cache_file is found it creates this array of books and adds them to the cache_file - for fast loading next time
     *
     * @return array Returns a nicely formatted array of books
     */
     private function getBooksFromShelf() {
 
-        if (self::cachefileExists(self::$cachefile)) {
+        if (self::cachefileExists(self::$cache_file)) {
 		
-            $books_data = file_get_contents(self::$cachefile);
+            $books_data = file_get_contents(self::$cache_file);
             return unserialize($books_data);
 			
         } else {
@@ -139,7 +138,7 @@ class Goodreads {
             $books = self::formatBookData($book_data);
             // cache book data as serialised array
             $books_data = serialize($books);
-            file_put_contents(self::$cachefile, $books_data);
+            file_put_contents(self::$cache_file, $books_data);
             return $books;
 			
         }
