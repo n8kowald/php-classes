@@ -1,6 +1,6 @@
 <?php
 /*************************************************************************
-* -- Goodreads
+* Goodreads
 *
 * Gets books from a Goodreads user and shelf for display on your site
 *
@@ -8,31 +8,31 @@
 * @version 1.0
 * @example usage:	
 *
-*		// Include this class, modify the settings inside init() and formatBookData().
-*		// call getBooks() from your page
+*    // Include this class, modify the settings inside init() and formatBookData().
+*    // call getBooks() from your page
 *
-* 		include('Goodreads.class.php');
-* 		$books = Goodreads::getBooks();
+* 	include('Goodreads.class.php');
+* 	$books = Goodreads::getBooks();
 *
-*		$html = '<h3>Currently Reading</h3>';
-*		$html .= '<ul>';
-*		foreach ($books as $book) {
-*			$html .= '<li>' . $book . '</li>';
-*		}
-*		$html .= '</ul>';
-*		echo $html;
+*	$html = '<h3>Currently Reading</h3>';
+*	$html .= '<ul>';
+*	foreach ($books as $book) {
+*		$html .= '<li>' . $book . '</li>';
+*	}
+*	$html .= '</ul>';
+*	echo $html;
 *
 ************************************************************************/
 class Goodreads {
 	
-	private static $goodreads_id;
-	private static $shelf;
-	private static $num_books;
-	private static $cache_dir;
-	private static $cachefile;
-	private static $cachelife_secs;
+    private static $goodreads_id;
+    private static $shelf;
+    private static $num_books;
+    private static $cache_dir;
+    private static $cachefile;
+    private static $cachelife_secs;
 	
-	/**
+    /**
     * init()
     *
     * Initialises settings
@@ -46,35 +46,35 @@ class Goodreads {
     * @staticvar integer $cachelife_secs	Time (in seconds) that cache files should last for
     * @staticvar string $cachefile			Builds the cachefile string. Format: 4609321-currently-reading.cache
     */
-	private function init() {
-	
-		self::$goodreads_id = 4609321;
-		self::$shelf = 'currently-reading'; // currently-reading, read, to-read, favorites
-		self::$num_books = 5;
-		
-		/* Cache settings */
-		self::$cache_dir = '';
-		self::$cachelife_secs = 604800; // 1 week
-		self::$cachefile = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
-		
-	}
+    private function init() {
 
-	/**
+        self::$goodreads_id = 4609321;
+        self::$shelf = 'currently-reading'; // currently-reading, read, to-read, favorites
+        self::$num_books = 5;
+
+        /* Cache settings */
+        self::$cache_dir = '';
+        self::$cachelife_secs = 604800; // 1 week
+        self::$cachefile = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
+
+    }
+
+    /**
     * getGoodreadsFeed()
     *
     * Builds feed URL for given user and shelf
     *
     * @return string $url Goodreads feed to grab books from
     */
-	private function getGoodreadsFeed() {
-		$url = sprintf("http://www.goodreads.com/review/list_rss/%d?shelf=%s", 
-			self::$goodreads_id,
-			self::$shelf
-		);
-		return $url;
-	}
+    private function getGoodreadsFeed() {
+        $url = sprintf("http://www.goodreads.com/review/list_rss/%d?shelf=%s", 
+            self::$goodreads_id,
+            self::$shelf
+        );
+        return $url;
+    }
 	
-	/**
+    /**
     * cachefileExists()
     *
     * Checks that a given cachefile exists on the server and is less than 1 week old
@@ -82,24 +82,24 @@ class Goodreads {
     * @param string $cachefile Path and name of cachefile to look for
     * @return bool True if cachefile exists: False if not
     */
-	private function cachefileExists($cachefile) {
+    private function cachefileExists($cachefile) {
 		if (file_exists($cachefile) && (filemtime($cachefile) > (time() - self::$cachelife_secs))) {
 			return true;
 		} else {
 			return false;
 		}
-	}
+    }
 	
-	/**
+    /**
     * getBookData()
     *
-	* Takes a SimpleXMLElement built from self::getGoodreadsFeed()
-	* Iterates over feed items, gets book details, adds found books details to an array
+    * Takes a SimpleXMLElement built from self::getGoodreadsFeed()
+    * Iterates over feed items, gets book details, adds found books details to an array
     *
     * @param SimpleXMLElement $simpleXML Books contained inside simpleXMLElement
     * @return array Returns an array of book details
     */
-	private function getBookData(SimpleXMLElement $simpleXML) {
+    private function getBookData(SimpleXMLElement $simpleXML) {
 		$book_data = array();
 		$c = 0;
 		// NOTE: to see all the details available, view source of the URL contained in self::getGoodreadsFeed()
@@ -111,9 +111,9 @@ class Goodreads {
 			$c++;
 		}
 		return $book_data;
-	}
+    }
 	
-	/**
+    /**
     * formatBookData()
     *
     * Gets book details and formats them e.g. %title% - <span class="author">%author%</span> %link%
@@ -122,7 +122,7 @@ class Goodreads {
     * @param array $book_data Array of book details
     * @return array Returns a formatted array of books
     */
-	private function formatBookData(Array $book_data) {
+    private function formatBookData(Array $book_data) {
 		$books = array();
 		foreach ($book_data as $value) {
 			$book_search = $value['title'] . " " . $value['author'];
@@ -131,9 +131,9 @@ class Goodreads {
 			$books[] = $value['title'] . " &mdash; <span class=\"author\">" . $value['author'] . "</span> &nbsp;" . $link;
 		}
 		return $books;
-	}
+    }
 	
-	/**
+    /**
     * getBooksFromShelf()
     *
     * Gets the array of books from a cachefile if found (and less than a week old).
@@ -141,7 +141,7 @@ class Goodreads {
     *
     * @return array Returns a nicely formatted array of books
     */
-	private function getBooksFromShelf() {
+    private function getBooksFromShelf() {
 	
 		if (self::cachefileExists(self::$cachefile)) {
 		
@@ -168,9 +168,9 @@ class Goodreads {
 			
 		}
 		
-	}
+    }
 
-	/**
+    /**
     * getBooks()
     *
     * Gets found books for Goodread's user and shelf, returns them to client code.
@@ -178,10 +178,10 @@ class Goodreads {
     *
     * @return array Returns an array of formatted books to client code
     */
-	public static function getBooks() {
+    public static function getBooks() {
 		self::init();
 		return self::getBooksFromShelf();
-	}
+    }
 	
 }
 
