@@ -117,32 +117,24 @@ class Goodreads {
     * @return array Returns a nicely formatted array of books
     */
     private function getBooksFromShelf() {
-
         if (self::cachefileExists(self::$cache_file)) {
-		
             $books_data = file_get_contents(self::$cache_file);
             return unserialize($books_data);
-			
         } else {
-
             $xml = simplexml_load_file(self::getGoodreadsFeed(), 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
             if (!$xml) {
                 return array("Error: Can't access this URL: " . self::getGoodreadsFeed());
             }
             $book_data = self::getBookData($xml->channel->item);
-			
             if (!is_array($book_data)) { 
                 return array("Error: No '".self::$shelf."' books found for Goodreads user id: ".self::$goodreads_id);
             }
-			
             $books = self::formatBookData($book_data);
             // cache book data as serialised array
             $books_data = serialize($books);
             file_put_contents(self::$cache_file, $books_data);
             return $books;
-			
         }
-	
     }
 
     /**
