@@ -61,13 +61,13 @@ class Goodreads {
     * @return bool True if cache_file exists: False if not
     */
     private function cachefileExists($cache_file) {
-		if (file_exists($cache_file) && (filemtime($cache_file) > (time() - self::$cache_life_secs))) {
-			return true;
-		} else {
-			return false;
-		}
+        if (file_exists($cache_file) && (filemtime($cache_file) > (time() - self::$cache_life_secs))) {
+            return true;
+        } else {
+            return false;
+        }
     }
-	
+
     /**
     * getBookData()
     * Takes a SimpleXMLElement built from self::getGoodreadsFeed()
