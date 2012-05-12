@@ -37,14 +37,14 @@ class Goodreads {
     *
     * Initialises settings
     *
-    * @staticvar integer $num_books 		Number of books to display 
-    * @staticvar integer $goodreads_id 		Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
-    * @staticvar string $shelf				The shelf to get books from e.g. currently-reading, read, to-read, favorites
+    * @staticvar integer $num_books         Number of books to display 
+    * @staticvar integer $goodreads_id      Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
+    * @staticvar string $shelf              The shelf to get books from e.g. currently-reading, read, to-read, favorites
     *
-    * @staticvar string $cache_dir			Set a directory to save cache files to e.g. /home/user/public_html/cache/
-    * 										If left blank will save cache files to the current working directory
-    * @staticvar integer $cachelife_secs	Time (in seconds) that cache files should last for
-    * @staticvar string $cachefile			Builds the cachefile string. Format: 4609321-currently-reading.cache
+    * @staticvar string $cache_dir          Set a directory to save cache files to e.g. /home/user/public_html/cache/
+    *                                       If left blank will save cache files to the current working directory
+    * @staticvar integer $cachelife_secs    Time (in seconds) that cache files should last for
+    * @staticvar string $cachefile          Builds the cachefile string. Format: 4609321-currently-reading.cache
     */
     private function init() {
 
@@ -100,17 +100,17 @@ class Goodreads {
     * @return array Returns an array of book details
     */
     private function getBookData(SimpleXMLElement $simpleXML) {
-		$book_data = array();
-		$c = 0;
-		// NOTE: to see all the details available, view source of the URL contained in self::getGoodreadsFeed()
-		foreach ($simpleXML as $element) {
-			if ($c == self::$num_books) break;
-			$book_data[$c]['title'] = (string) $element->title;
-			$book_data[$c]['author'] = (string) $element->author_name;
-			$book_data[$c]['book_id'] = (string) $element->book['id'];
-			$c++;
-		}
-		return $book_data;
+        $book_data = array();
+        $c = 0;
+        // NOTE: to see all the details available, view source of the URL contained in self::getGoodreadsFeed()
+        foreach ($simpleXML as $element) {
+            if ($c == self::$num_books) break;
+            $book_data[$c]['title'] = (string) $element->title;
+            $book_data[$c]['author'] = (string) $element->author_name;
+            $book_data[$c]['book_id'] = (string) $element->book['id'];
+            $c++;
+        }
+        return $book_data;
     }
 	
     /**
@@ -123,14 +123,14 @@ class Goodreads {
     * @return array Returns a formatted array of books
     */
     private function formatBookData(Array $book_data) {
-		$books = array();
-		foreach ($book_data as $value) {
-			$book_search = $value['title'] . " " . $value['author'];
-			$search_qry = str_replace(',', '', str_replace(' ', '+', $book_search));
-			$link = '[<a href="http://www.bookdepository.co.uk/search?searchTerm='.$search_qry.'&amp;search=search&amp;a_aid=lowest-price" target="_blank">view</a>]';
-			$books[] = $value['title'] . " &mdash; <span class=\"author\">" . $value['author'] . "</span> &nbsp;" . $link;
-		}
-		return $books;
+        $books = array();
+        foreach ($book_data as $value) {
+            $book_search = $value['title'] . " " . $value['author'];
+            $search_qry = str_replace(',', '', str_replace(' ', '+', $book_search));
+            $link = '[<a href="http://www.bookdepository.co.uk/search?searchTerm='.$search_qry.'&amp;search=search&amp;a_aid=lowest-price" target="_blank">view</a>]';
+            $books[] = $value['title'] . " &mdash; <span class=\"author\">" . $value['author'] . "</span> &nbsp;" . $link;
+        }
+        return $books;
     }
 	
     /**
@@ -142,32 +142,32 @@ class Goodreads {
     * @return array Returns a nicely formatted array of books
     */
     private function getBooksFromShelf() {
+
+        if (self::cachefileExists(self::$cachefile)) {
+		
+            $books_data = file_get_contents(self::$cachefile);
+            return unserialize($books_data);
+			
+        } else {
+
+            $xml = simplexml_load_file(self::getGoodreadsFeed(), 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
+            if (!$xml) {
+                return array("Error: Can't access this URL: " . self::getGoodreadsFeed());
+            }
+            $book_data = self::getBookData($xml->channel->item);
+			
+            if (!is_array($book_data)) { 
+                return array("Error: No '".self::$shelf."' books found for Goodreads user id: ".self::$goodreads_id);
+            }
+			
+            $books = self::formatBookData($book_data);
+            // cache book data as serialised array
+            $books_data = serialize($books);
+            file_put_contents(self::$cachefile, $books_data);
+            return $books;
+			
+        }
 	
-		if (self::cachefileExists(self::$cachefile)) {
-		
-			$books_data = file_get_contents(self::$cachefile);
-			return unserialize($books_data);
-			
-		} else {
-		
-			$xml = simplexml_load_file(self::getGoodreadsFeed(), 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
-			if (!$xml) {
-				return array("Error: Can't access this URL: " . self::getGoodreadsFeed());
-			}
-			$book_data = self::getBookData($xml->channel->item);
-			
-			if (!is_array($book_data)) { 
-				return array("Error: No '".self::$shelf."' books found for Goodreads user id: ".self::$goodreads_id);
-			}
-			
-			$books = self::formatBookData($book_data);
-			// cache book data as serialised array
-			$books_data = serialize($books);
-			file_put_contents(self::$cachefile, $books_data);
-			return $books;
-			
-		}
-		
     }
 
     /**
@@ -179,8 +179,8 @@ class Goodreads {
     * @return array Returns an array of formatted books to client code
     */
     public static function getBooks() {
-		self::init();
-		return self::getBooksFromShelf();
+        self::init();
+        return self::getBooksFromShelf();
     }
 	
 }
