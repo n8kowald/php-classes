@@ -6,21 +6,6 @@
 *
 * @author Nathan Kowald
 * @version 1.0
-* @example usage:	
-*
-*    // Include this class, modify the settings inside init() and formatBookData().
-*    // call getBooks() from your page
-*
-* 	include('Goodreads.class.php');
-* 	$books = Goodreads::getBooks();
-*
-*	$html = '<h3>Currently Reading</h3>';
-*	$html .= '<ul>';
-*	foreach ($books as $book) {
-*		$html .= '<li>' . $book . '</li>';
-*	}
-*	$html .= '</ul>';
-*	echo $html;
 *
 ************************************************************************/
 class Goodreads {
