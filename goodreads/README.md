@@ -1,6 +1,3 @@
-PHP Classes
-===========
-
 ## Goodreads.class.php
 Class to easily display your Goodreads books on your website.
 
