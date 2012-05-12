@@ -1,5 +1,6 @@
 ## Goodreads.class.php
 Class to easily display your Goodreads books on your website.
+**Demo:** http://www.nathankowald.com <-- under 'Books I'm Reading'
 
 ### Usage
 -Include Goodreads.class.php in your page.  
