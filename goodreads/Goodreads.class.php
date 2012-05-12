@@ -19,7 +19,6 @@ class Goodreads {
 	
     /**
     * init()
-    *
     * Initialises settings
     *
     * @staticvar integer $num_books         Number of books to display 
@@ -27,26 +26,22 @@ class Goodreads {
     * @staticvar string $shelf              The shelf to get books from e.g. currently-reading, read, to-read, favorites
     *
     * @staticvar string $cache_dir          Set a directory to save cache files to e.g. /home/user/public_html/cache/
-    *                                       If left blank will save cache files to the current working directory
+    *                                       If left blank it will save cache files to the current working directory
     * @staticvar integer $cachelife_secs    Time (in seconds) that cache files should last for
     * @staticvar string $cachefile          Builds the cachefile string. Format: 4609321-currently-reading.cache
     */
     private function init() {
-
         self::$goodreads_id = 4609321;
         self::$shelf = 'currently-reading'; // currently-reading, read, to-read, favorites
         self::$num_books = 5;
-
         /* Cache settings */
         self::$cache_dir = '';
         self::$cachelife_secs = 604800; // 1 week
         self::$cachefile = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
-
     }
 
     /**
     * getGoodreadsFeed()
-    *
     * Builds feed URL for given user and shelf
     *
     * @return string $url Goodreads feed to grab books from
@@ -61,7 +56,6 @@ class Goodreads {
 	
     /**
     * cachefileExists()
-    *
     * Checks that a given cachefile exists on the server and is less than 1 week old
     *
     * @param string $cachefile Path and name of cachefile to look for
@@ -77,7 +71,6 @@ class Goodreads {
 	
     /**
     * getBookData()
-    *
     * Takes a SimpleXMLElement built from self::getGoodreadsFeed()
     * Iterates over feed items, gets book details, adds found books details to an array
     *
@@ -100,7 +93,6 @@ class Goodreads {
 	
     /**
     * formatBookData()
-    *
     * Gets book details and formats them e.g. %title% - <span class="author">%author%</span> %link%
     * I wanted a link to The Book Depository to follow each book. Link includes an affiliate ID: &a_aid=lowest-price.
     *
@@ -120,7 +112,6 @@ class Goodreads {
 	
     /**
     * getBooksFromShelf()
-    *
     * Gets the array of books from a cachefile if found (and less than a week old).
     * If no cachefile is found it creates this array of books and adds them to the cachefile - for fast loading next time
     *
@@ -157,7 +148,6 @@ class Goodreads {
 
     /**
     * getBooks()
-    *
     * Gets found books for Goodread's user and shelf, returns them to client code.
     * self::init() initializes static properties for settings 
     *
