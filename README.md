@@ -1,8 +1,12 @@
 PHP Classes
 ===========
 
-### goodreads/Goodreads.class.php
-Displays a user's Goodreads books.  
-Customise by: user id, shelf, no shown, format them how you like.
+## goodreads/Goodreads.class.php
+Easily display your Goodreads books on your website.  
+**Customise:** user id, shelf, number shown, format them how you like.  
+
+### Demo
+http://www.nathankowald.com
+
 
 
