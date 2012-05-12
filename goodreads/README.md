@@ -6,8 +6,8 @@ Class to easily display your Goodreads books on your website.
 
 ### Usage
 -Include Goodreads.class.php in your page.  
--Modify the settings inside init().  
--Call the static method, Goodreads::getBooks(); from the page you want to use it on. 
+-Update the settings inside Goodreads::init().  
+-Call the static method, Goodreads::getBooks() from the page you want to use it on. 
 
 ### Settings  
     private function init() {
