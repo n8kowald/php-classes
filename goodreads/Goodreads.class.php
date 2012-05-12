@@ -2,7 +2,7 @@
 /*************************************************************************
 * Goodreads
 *
-* Gets books from a Goodreads user and shelf for display on your site
+* Class to easily display your Goodreads books on your website.
 *
 * @author Nathan Kowald
 * @version 1.0
