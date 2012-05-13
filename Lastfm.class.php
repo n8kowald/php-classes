@@ -10,8 +10,8 @@
 ************************************************************************/
 class Lastfm {
 	
-	private static $username;
-	private static $num_songs;
+    private static $username;
+    private static $num_songs;
     private static $error;
 
     /**
@@ -27,7 +27,7 @@ class Lastfm {
         return $url;
     }
     
-	/**
+    /**
     * formatSongData()
     * Formats songs. Links to the song on last.fm
     *
@@ -42,7 +42,7 @@ class Lastfm {
         return $songs;
     }
     
-	/**
+    /**
     * getLovedSongs()
     * Gets user's loved songs. From cache file or from the feed.
     *
@@ -73,11 +73,11 @@ class Lastfm {
     * @return boolean True if name is not blank, False if blank
     */
     private static function isValidUsername($username) {
-    	if ($username == '') {
-    		self::$error = 'Username cannot be blank';
-    		return false;
-    	}
-    	return true;
+        if ($username == '') {
+            self::$error = 'Username cannot be blank';
+            return false;
+        }
+        return true;
     }
     
     /**
