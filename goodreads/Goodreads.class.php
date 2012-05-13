@@ -28,7 +28,7 @@ class Goodreads {
     * @staticvar string $cache_file        Builds the cache_file string. Format: 4609321-currently-reading.cache
     */
     private function init() {
-        self::$cache_dir = '/home/nathanko/application/cache/';
+        self::$cache_dir = '';
         self::$cache_life_secs = 604800; // 1 week
         self::$cache_file = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
     }
