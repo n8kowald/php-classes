@@ -5,7 +5,7 @@ Class to easily display your Goodreads books on your website.
 ### Usage
 -Include Goodreads.class.php in your page.  
 -Update the cache settings inside Goodreads::init().  
--Update values for: $goodreads_id, $shelf and $num_books
+-Update values for: $goodreads_id, $shelf and $num_books  
 -Call the static method, Goodreads::getBooks($goodreads_id, $shelf, $num_books) from your page. 
 
 ### Cache Settings  
