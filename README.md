@@ -19,7 +19,7 @@ Cache filename and cache time are set in `Cache::init('filename.cache', 604800)`
         }
 
         /* Create a cache file */
-        $books = array('Flowers for Algernon - Daniel Keyes', 'Nine Stories - J.D. Salinger', 'The Stranger - Albert Camus');
+        $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
         Cache::setCache($books);
     ?>
 
