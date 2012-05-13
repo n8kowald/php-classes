@@ -80,14 +80,13 @@ class Goodreads {
     *
     * @return boolean Returns true/false and sets an error message in self::$error if false
     */
-
     private static function isValidGoodreadsID($goodreads_id) {
     	if ($goodreads_id == '') {
-    		self::$error = 'Goodreads user ID cannot be blank';
-    		return false;
+            self::$error = 'Goodreads user ID cannot be blank';
+            return false;
     	} else if (!is_numeric($goodreads_id)) {
-    		self::$error = 'Goodreads user ID needs to be a number';
-    		return false;
+            self::$error = 'Goodreads user ID needs to be a number';
+            return false;
     	}
     	return true;
     }
