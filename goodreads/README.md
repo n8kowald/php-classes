@@ -4,14 +4,14 @@ Class to easily display your Goodreads books on your website.
 
 ### Usage
 -Include Goodreads.class.php.  
--Update the cache settings inside Goodreads::init(). If setting a cache dir, create with write permissions.  
+-Update the cache settings inside Goodreads::init(). If setting a cache directory, must have write permissions.  
 -Set values for: $goodreads_id, $shelf and $num_books  
 -Call the static method, Goodreads::getBooks($goodreads_id, $shelf, $num_books) from your page. 
 
 ### Cache Settings  
     private function init() {
         self::$cache_dir = ''; <-- Directory for cache files. Left blank, cache files created in calling directory. 
-        self::$cachelife_secs = 604800; <-- How long should book cache last? Defaults to 1 week.  
+        self::$cachelife_secs = 604800; <-- How long should cache last? Defaults to 1 week.  
     }
 
 ### Example
