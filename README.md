@@ -5,10 +5,23 @@ PHP Classes
 A simple caching class. Faster loading data for dynamic content.  
 
 ### Cache Settings
-Set a cache directory inside `Cache::init()`. This directory must have write permissions.   
+Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
 If left blank, cache files are saved in the calling directory.   
 
-Cache filename and time is set in `Cache::init('filename.cache', 604800)` <-- Cache valid for 1 week  
+Cache filename and cache time are set in `Cache::init('filename.cache', 604800)` <-- Cache lasts 1 week  
+
+### Example
+    <?php
+        /* Get contents of a cache file */
+        Cache::init($cache_filename='4609321-currently-reading.cache', $cache_life=604800);
+        if (Cache::cacheFileExists()) {
+            return Cache::getCache();
+        }
+
+        /* Create a cache file */
+        $books = array('Flowers for Algernon - Daniel Keyes', 'Nine Stories - J.D. Salinger', 'The Stranger - Albert Camus');
+        Cache::setCache($books);
+    ?>
 
 ## Feeder.class.php
 A simple class to get data from an RSS feed.
@@ -28,11 +41,7 @@ Easily display your Goodreads books on your website.
     include('Feeder.class.php');
     include('Goodreads.class.php');
     
-    $goodreads_id = 4609321; // <-- Goodreads user id.  
-    $shelf = 'currently-reading'; // <-- Shelf to display: currently-reading, read, to-read, favorites
-    $num_books = 5; // <-- Number of books to display
-    
-    $books = Goodreads::getBooks($goodreads_id, $shelf, $num_books);
+    $books = Goodreads::getBooks($goodreads_id=4609321, $shelf='currently-reading', $num_books=5);
     
     $html = '<h3>Currently Reading</h3>';
     $html .= '<ul>';
@@ -43,8 +52,8 @@ Easily display your Goodreads books on your website.
     echo $html;
     ?>
 
-## last.fm/Lastfm.class.php
-Easily display your 'loved songs' on your website
+## Lastfm.class.php
+Easily display your last.fm 'loved songs' on your website.  
 **Demo:** http://www.nathankowald.com/favourites
 
 ### Usage
