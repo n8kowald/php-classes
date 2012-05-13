@@ -12,12 +12,12 @@ Cache filename and cache time are set in `Cache::init($cache_filename, $cache_li
 
 ### Example
     <?php
+    include('Cache.class.php');
     // Get contents of a cache file
     Cache::init('4609321-currently-reading.cache', 604800);
     if (Cache::cacheFileExists()) {
         return Cache::getCache();
     }
-
     // Create a cache file 
     $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
     Cache::setCache($books);
@@ -28,6 +28,7 @@ A simple class to get data from an RSS feed.
 
 ### Example
     <?php
+    include('Feeder.class.php');
     $items = Feeder::getItems('http://feeds.delicious.com/v2/rss/n8kowald/shared', 10, array('title', 'link', 'description'));
     $article_html = "<ul class=\"lovedarticles\">\n";
     foreach ($items as $item) {
