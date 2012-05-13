@@ -77,7 +77,6 @@ class Goodreads {
     * Superficial validity check. Checks that ID is not blank and a number
     *
     * @param integer $goodreads_id  Given ID to check 
-    *
     * @return boolean Returns true/false and sets an error message in self::$error if false
     */
     private static function isValidGoodreadsID($goodreads_id) {
