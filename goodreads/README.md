@@ -4,15 +4,12 @@ Class to easily display your Goodreads books on your website.
 
 ### Usage
 -Include Goodreads.class.php in your page.  
--Update the settings inside Goodreads::init().  
--Call the static method, Goodreads::getBooks() from the page you want to use it on. 
+-Update the cache settings inside Goodreads::init().  
+-Update values for: $goodreads_id, $shelf and $num_books
+-Call the static method, Goodreads::getBooks($goodreads_id, $shelf, $num_books) from your page. 
 
-### Settings  
+### Cache Settings  
     private function init() {
-    
-    self::$goodreads_id = 4609321; <-- Goodreads user id.  
-    self::$shelf = 'currently-reading'; <-- Shelf to display.  
-    self::$num_books = 5; <-- Number of books to display.  
     
     self::$cache_dir = ''; <-- Directory for cache files. Create with appropriate permissions.  
     self::$cachelife_secs = 604800; <-- How long should book cache last? Defaults to 1 week.  
@@ -22,7 +19,12 @@ Class to easily display your Goodreads books on your website.
 ### Example
     <?php
     include('Goodreads.class.php');
-    $books = Goodreads::getBooks();
+    
+    $goodreads_id = 4609321; // <-- Goodreads user id.  
+    $shelf = 'currently-reading'; // <-- Shelf to display: currently-reading, read, to-read, favorites
+    $num_books = 5; // <-- Number of books to display
+    
+    $books = Goodreads::getBooks($goodreads_id, $shelf, $num_books);
     
     $html = '<h3>Currently Reading</h3>';
     $html .= '<ul>';

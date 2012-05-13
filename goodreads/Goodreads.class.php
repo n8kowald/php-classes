@@ -16,25 +16,19 @@ class Goodreads {
     private static $cache_dir;
     private static $cache_file;
     private static $cache_life_secs;
+    private static $error;
 	
     /**
     * init()
     * Initialises settings
     *
-    * @staticvar integer $num_books        Number of books to display 
-    * @staticvar integer $goodreads_id     Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
-    * @staticvar string $shelf             The shelf to get books from e.g. currently-reading, read, to-read, favorites
     * @staticvar string $cache_dir         Set a directory to save cache files to e.g. /home/user/public_html/cache/
     *                                      If left blank it will save cache files to the current working directory
     * @staticvar integer $cache_life_secs  Time (in seconds) that cache files should last for
     * @staticvar string $cache_file        Builds the cache_file string. Format: 4609321-currently-reading.cache
     */
     private function init() {
-        self::$goodreads_id = 4609321;
-        self::$shelf = 'currently-reading'; // currently-reading, read, to-read, favorites
-        self::$num_books = 5;
-        /* Cache settings */
-        self::$cache_dir = '';
+        self::$cache_dir = '/home/nathanko/application/cache/';
         self::$cache_life_secs = 604800; // 1 week
         self::$cache_file = self::$cache_dir . self::$goodreads_id . '-' . self::$shelf .'.cache'; 
     }
@@ -121,13 +115,15 @@ class Goodreads {
             $books_data = file_get_contents(self::$cache_file);
             return unserialize($books_data);
         } else {
-            $xml = simplexml_load_file(self::getGoodreadsFeed(), 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
+            $xml = @simplexml_load_file(self::getGoodreadsFeed(), 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
             if (!$xml) {
-                return array("Error: Can't access this URL: " . self::getGoodreadsFeed());
+            	self::$error = "Goodreads feed does not exist. Check user: ".self::$goodreads_id." and shelf: '".self::$shelf."' exist";
+            	return array(self::$error);
             }
             $book_data = self::getBookData($xml->channel->item);
-            if (!is_array($book_data)) { 
-                return array("Error: No '".self::$shelf."' books found for Goodreads user id: ".self::$goodreads_id);
+            if (!is_array($book_data)) {
+            	self::$error = "No '".self::$shelf."' books found for Goodreads user id: ".self::$goodreads_id;
+            	return array(self::$error); 
             }
             $books = self::formatBookData($book_data);
             // cache book data as serialised array
@@ -136,15 +132,46 @@ class Goodreads {
             return $books;
         }
     }
+    
+    /**
+    * isValidGoodreadsID()
+    * Superficial validity check. Checks that ID is not blank and a number
+    *
+    * @param integer $goodreads_id  Given ID to check 
+    *
+    * @return boolean Returns true/false and sets an error message in self::$error if false
+    */
+
+    private static function isValidGoodreadsID($goodreads_id) {
+    	if ($goodreads_id == '') {
+    		self::$error = 'Goodreads user ID cannot be blank';
+    		return false;
+    	} else if (!is_numeric($goodreads_id)) {
+    		self::$error = 'Goodreads user ID needs to be a number';
+    		return false;
+    	}
+    	return true;
+    }
 
     /**
     * getBooks()
     * Gets found books for Goodreads user and shelf, returns them to client code.
-    * self::init() initializes static properties for settings 
+    * self::init() initializes cache settings from param values 
     *
-    * @return array Returns an array of formatted books to client code
+    * @param integer $gid        Goodreads user id: User IDs found in profile URLs e.g. http://goodreads.com/user/show/[4609321]-nathan
+    * @param string $shelf       The shelf to get books from e.g. currently-reading, read, to-read, favorites
+    * @param integer $num_books  Number of books to display 
+    *
+    * @return array Returns an array of formatted books to client code or an error.
     */
-    public static function getBooks() {
+    public static function getBooks($gid='', $shelf='currently-reading', $num_books = 5) {
+    
+    	if (!self::isValidGoodreadsID($gid)) return array(self::$error);
+
+    	self::$goodreads_id = $gid;
+        self::$shelf = $shelf;
+        self::$num_books = $num_books;
+        
         self::init();
         return self::getBooksFromShelf();
     }
