@@ -8,23 +8,36 @@ A simple caching class. Faster loading data for dynamic content.
 Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
 If left blank, cache files are saved in the calling directory.   
 
-Cache filename and cache time are set in `Cache::init('filename.cache', 604800)` <-- Cache lasts 1 week  
+Cache filename and cache time are set in `Cache::init($cache_filename, $cache_life)` <-- Cache lasts 1 week  
 
 ### Example
     <?php
-        /* Get contents of a cache file */
-        Cache::init($cache_filename='4609321-currently-reading.cache', $cache_life=604800);
+        // Get contents of a cache file
+        Cache::init('4609321-currently-reading.cache', 604800);
         if (Cache::cacheFileExists()) {
             return Cache::getCache();
         }
 
-        /* Create a cache file */
+        // Create a cache file 
         $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
         Cache::setCache($books);
     ?>
 
 ## Feeder.class.php
 A simple class to get data from an RSS feed.
+
+### Example
+    <?php
+    $items = Feeder::getItems('http://feeds.delicious.com/v2/rss/n8kowald/shared', 10, array('title', 'link', 'description'));
+    $article_html = "<ul class=\"lovedarticles\">\n";
+    foreach ($items as $item) {
+        $item_html = '<a href="'.$item['link'].'" target="_blank">'.$item['title'].'</a>';
+        if ($item['description'] != '') $item_html .= "&ndash; " . $item['description'];
+            $article_html .= "<li>$item_html</li>\n";
+        }
+    $article_html .= "</ul>\n";
+    echo $article_html;
+    ?>
 
 ## Goodreads.class.php
 Easily display your Goodreads books on your website.  
