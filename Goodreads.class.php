@@ -61,16 +61,15 @@ class Goodreads {
         Cache::init($cache_filename, $cache_life);
         if (Cache::cacheFileExists()) {
             return Cache::getCache();
-        } else {
-            $book_data = Feeder::getItems(self::getGoodreadsFeed(), self::$num_books, array('title', 'author_name'));
-            if (!is_array($book_data)) {
-            	self::$error = "Goodreads feed does not exist. Check user: ".self::$goodreads_id." and shelf: '".self::$shelf."' exist";
-            	return array(self::$error); 
-            }
-            $books = self::formatBookData($book_data);
-            Cache::setCache($books);
-            return $books;
         }
+        $book_data = Feeder::getItems(self::getGoodreadsFeed(), self::$num_books, array('title', 'author_name'));
+        if (!is_array($book_data)) {
+            self::$error = "Goodreads feed does not exist. Check user: ".self::$goodreads_id." and shelf: '".self::$shelf."' exist";
+            return array(self::$error); 
+        }
+        $books = self::formatBookData($book_data);
+        Cache::setCache($books);
+        return $books;
     }
     
     /**

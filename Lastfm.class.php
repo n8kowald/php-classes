@@ -55,16 +55,15 @@ class Lastfm {
         
         if (Cache::cacheFileExists()) {
             return Cache::getCache();
-        } else {
-            $song_data = Feeder::getItems(self::getLovedSongsFeed(), self::$num_songs, array('title', 'link'));
-            if (!is_array($song_data)) {
-            	self::$error = "Last.fm loved tracks feed not found";
-            	return array(self::$error); 
-            }
-            $songs = self::formatSongData($song_data);
-            Cache::setCache($songs);
-            return $songs;
         }
+        $song_data = Feeder::getItems(self::getLovedSongsFeed(), self::$num_songs, array('title', 'link'));
+        if (!is_array($song_data)) {
+            self::$error = "Last.fm loved tracks feed not found";
+            return array(self::$error); 
+        }
+        $songs = self::formatSongData($song_data);
+        Cache::setCache($songs);
+        return $songs;
     }
     
     /**
