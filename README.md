@@ -12,15 +12,15 @@ Cache filename and cache time are set in `Cache::init($cache_filename, $cache_li
 
 ### Example
     <?php
-        // Get contents of a cache file
-        Cache::init('4609321-currently-reading.cache', 604800);
-        if (Cache::cacheFileExists()) {
-            return Cache::getCache();
-        }
+    // Get contents of a cache file
+    Cache::init('4609321-currently-reading.cache', 604800);
+    if (Cache::cacheFileExists()) {
+        return Cache::getCache();
+    }
 
-        // Create a cache file 
-        $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
-        Cache::setCache($books);
+    // Create a cache file 
+    $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
+    Cache::setCache($books);
     ?>
 
 ## Feeder.class.php
