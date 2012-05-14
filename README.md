@@ -73,7 +73,7 @@ Easily display your last.fm 'loved songs' on your website.
 ### Usage
 -Include Cache.class.php, Feeder.class.php and Goodreads.class.php.  
 -Set: $username and $num_books  
--Call the static method, `Lastfm::getSongs($username, $num_songs)` from your page. 
+-Call the static method, `Lastfm::getLovedSongs($username, $num_songs)` from your page. 
 
 ### Example
     <?php
@@ -81,7 +81,7 @@ Easily display your last.fm 'loved songs' on your website.
     include('Feeder.class.php');
     include('Goodreads.class.php');
     
-    $songs = Lastfm::getSongs($username='n8kowald', $num_songs='20');
+    $songs = Lastfm::getLovedSongs($username='n8kowald', $num_songs='20');
     $songs_html = '<ul>';
     foreach ($songs as $song) {
         $songs_html .= '<li>' . $song . '</li>';
