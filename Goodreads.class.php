@@ -21,7 +21,7 @@ class Goodreads {
     *
     * @return string $url Goodreads feed to grab books from
     */
-    private function getGoodreadsFeed() {
+    private static function getGoodreadsFeed() {
         $url = sprintf("http://www.goodreads.com/review/list_rss/%d?shelf=%s", 
             self::$goodreads_id,
             self::$shelf
@@ -37,7 +37,7 @@ class Goodreads {
     * @param array $book_data Array containing book details
     * @return array Returns a formatted array of books
     */
-    private function formatBookData(Array $book_data) {
+    private static function formatBookData(Array $book_data) {
         $books = array();
         foreach ($book_data as $value) {
             $book_search = $value['title'] . " " . $value['author_name'];
@@ -55,7 +55,7 @@ class Goodreads {
     *
     * @return array Returns a nicely formatted array of books
     */
-    private function getBooksFromShelf() {
+    private static function getBooksFromShelf() {
         $cache_filename = self::$goodreads_id .'-'. self::$shelf .'.cache';
         $cache_life = 604800; // 1 week
         Cache::init($cache_filename, $cache_life);
@@ -64,8 +64,8 @@ class Goodreads {
         }
         $book_data = Feeder::getItems(self::getGoodreadsFeed(), self::$num_books, array('title', 'author_name'));
         if (!is_array($book_data)) {
-            self::$error = "Goodreads feed does not exist. Check user: ".self::$goodreads_id." and shelf: '".self::$shelf."' exist";
-            return array(self::$error); 
+        	self::$error = "Goodreads feed does not exist. Check user: ".self::$goodreads_id." and shelf: '".self::$shelf."' exist";
+        	return array(self::$error); 
         }
         $books = self::formatBookData($book_data);
         Cache::setCache($books);
@@ -77,15 +77,17 @@ class Goodreads {
     * Superficial validity check. Checks that ID is not blank and a number
     *
     * @param integer $goodreads_id  Given ID to check 
+    *
     * @return boolean Returns true/false and sets an error message in self::$error if false
     */
+
     private static function isValidGoodreadsID($goodreads_id) {
     	if ($goodreads_id == '') {
-            self::$error = 'Goodreads user ID cannot be blank';
-            return false;
+    		self::$error = 'Goodreads user ID cannot be blank';
+    		return false;
     	} else if (!is_numeric($goodreads_id)) {
-            self::$error = 'Goodreads user ID needs to be a number';
-            return false;
+    		self::$error = 'Goodreads user ID needs to be a number';
+    		return false;
     	}
     	return true;
     }

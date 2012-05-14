@@ -21,7 +21,7 @@ class Feeder {
     * @param SimpleXMLElement $simpleXML A simpleXML object created in Feeder::loadFeed()
     * @return mixed Feed data if found or boolean false if no items found
     */
-    private function getData(SimpleXMLElement $simpleXML) {
+    private static function getData(SimpleXMLElement $simpleXML) {
         $data = array();
         $c = 0;
         foreach ($simpleXML as $element) {
@@ -40,7 +40,7 @@ class Feeder {
     *
     * @return mixed Returns the result of Feeder::getData() or false if feed can't be loaded
     */
-    private function loadFeed() {
+    private static function loadFeed() {
         $xml = @simplexml_load_file(self::$feed_url, 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
         if (!$xml) {
             // Feed not found
@@ -58,7 +58,7 @@ class Feeder {
     * @param array $values     Array of values to get from the feed. E.g. array('title', 'description', link')
     * @return mixed array of feed data or false if no data found
     */
-    public function getItems($feed_url='', $num_items=10, $values=array()) {
+    public static function getItems($feed_url='', $num_items=10, $values=array()) {
         self::$feed_url = $feed_url;
         self::$num_items = $num_items;
         self::$values = $values;
