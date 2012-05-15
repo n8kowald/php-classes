@@ -25,7 +25,7 @@ class Cache {
     * @staticvar string $cache_file        Builds the cache_file string. Format: n8kowald-loved-tracks.cache
     */
     public static function init($cache_filename='', $cache_life='') {
-        self::$cache_dir = '/home/nathanko/application/cache/';
+        self::$cache_dir = '';
         self::$cache_life_secs = $cache_life;
         self::$cache_file = self::$cache_dir . $cache_filename; 
     }
