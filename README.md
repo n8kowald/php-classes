@@ -14,13 +14,14 @@ Cache filename and cache time are set in `Cache::init($cache_filename, $cache_li
     <?php
     include('Cache.class.php');
     // Get contents of a cache file
-    Cache::init('4609321-currently-reading.cache', 604800);
+    Cache::init('currently-reading.cache', 604800);
     if (Cache::cacheFileExists()) {
-        return Cache::getCache();
+        echo Cache::getCache();
+    } else {
+        // Create a cache file
+        $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
+        Cache::setCache($books);
     }
-    // Create a cache file 
-    $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
-    Cache::setCache($books);
     ?>
 
 ## Feeder.class.php
@@ -30,14 +31,14 @@ A simple class to get data from an RSS feed.
     <?php
     include('Feeder.class.php');
     $items = Feeder::getItems('http://feeds.delicious.com/v2/rss/n8kowald/shared', 10, array('title', 'link', 'description'));
-    $article_html = "<ul class=\"lovedarticles\">\n";
+    $html = "<ul>\n";
     foreach ($items as $item) {
-        $item_html = '<a href="'.$item['link'].'" target="_blank">'.$item['title'].'</a>';
+        $item_html = '<a href="'.$item['link'].'">'.$item['title'].'</a>';
         if ($item['description'] != '') $item_html .= "&ndash; " . $item['description'];
-            $article_html .= "<li>$item_html</li>\n";
+            $html .= "<li>$item_html</li>\n";
         }
-    $article_html .= "</ul>\n";
-    echo $article_html;
+    $html .= "</ul>\n";
+    echo $html;
     ?>
 
 ## Goodreads.class.php
@@ -82,12 +83,12 @@ Easily display your last.fm 'loved songs' on your website.
     include('Goodreads.class.php');
     
     $songs = Lastfm::getLovedSongs($username='n8kowald', $num_songs='20');
-    $songs_html = '<ul>';
+    $html = '<ul>';
     foreach ($songs as $song) {
-        $songs_html .= '<li>' . $song . '</li>';
+        $html .= '<li>' . $song . '</li>';
     }
-    $songs_html .= '</ul>';
-    echo $songs_html;
+    $html .= '</ul>';
+    echo $html;
     ?>
 
 
