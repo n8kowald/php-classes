@@ -13,9 +13,9 @@ Cache filename and cache time are set in `Cache::init($cache_filename, $cache_li
 ### Example
     <?php
     include('Cache.class.php');
-    // Get contents of a cache file
     Cache::init('currently-reading.cache', 604800);
     if (Cache::cacheFileExists()) {
+        // Get contents of a cache file
         echo Cache::getCache();
     } else {
         // Create a cache file
