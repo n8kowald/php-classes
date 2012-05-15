@@ -10,8 +10,8 @@
 ************************************************************************/
 class Lastfm {
 	
-	private static $username;
-	private static $num_songs;
+    private static $username;
+    private static $num_songs;
     private static $error;
 
     /**
@@ -27,7 +27,7 @@ class Lastfm {
         return $url;
     }
     
-	/**
+    /**
     * formatSongData()
     * Formats songs. Links to the song on last.fm
     *
@@ -56,7 +56,7 @@ class Lastfm {
     	return true;
     }
     
-	/**
+    /**
     * getLovedSongs()
     * Gets user's loved songs. From cache file or from the feed.
     *
