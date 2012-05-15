@@ -8,12 +8,12 @@ A simple caching class. Faster loading data for dynamic content.
 Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
 If left blank, cache files are saved in the calling directory.   
 
-Cache filename and cache time are set in `Cache::init($cache_filename, $cache_life)` <-- Cache lasts 1 week  
+Cache filename and cache time (seconds) are set in `Cache::init($cache_filename, $cache_life)`
 
 ### Example
     <?php
     include('Cache.class.php');
-    Cache::init('currently-reading.cache', 604800);
+    Cache::init('currently-reading.cache', 86400); <-- 1 day cache life
     if (Cache::cacheFileExists()) {
         // Get contents of a cache file
         echo Cache::getCache();
@@ -30,14 +30,11 @@ A simple class to get data from an RSS feed.
 ### Example
     <?php
     include('Feeder.class.php');
-    $items = Feeder::getItems('http://feeds.delicious.com/v2/rss/n8kowald/shared', 10, array('title', 'link', 'description'));
-    $html = "<ul>\n";
+    $items = Feeder::getItems('http://ws.audioscrobbler.com/2.0/user/n8kowald/lovedtracks.rss', 10, array('title', 'link'));
+    $html = "<ul>";
     foreach ($items as $item) {
-        $item_html = '<a href="'.$item['link'].'">'.$item['title'].'</a>';
-        if ($item['description'] != '') $item_html .= "&ndash; " . $item['description'];
-            $html .= "<li>$item_html</li>\n";
-        }
-    $html .= "</ul>\n";
+        $html = '<a href="'.$item['link'].'">'.$item['title'].'</a>';
+    $html .= "</ul>";
     echo $html;
     ?>
 
@@ -73,8 +70,8 @@ Easily display your last.fm 'loved songs' on your website.
 
 ### Usage
 -Include Cache.class.php, Feeder.class.php and Goodreads.class.php.  
--Set: $username and $num_books  
--Call the static method, `Lastfm::getLovedSongs($username, $num_songs)` from your page. 
+-Set: $username and $num_songs  
+-Call Lastfm::getLovedSongs($username, $num_songs)` from your page. 
 
 ### Example
     <?php
