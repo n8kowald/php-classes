@@ -106,6 +106,9 @@ class Goodreads {
     public static function getBooks($gid='', $shelf='currently-reading', $num_books = 5) {
     
     	if (!self::isValidGoodreadsID($gid)) return array(self::$error);
+    	// Check Feeder and Cache classes are accessible
+    	if (!class_exists('Feeder')) return array('Could not find Feeder.class.php.');
+    	if (!class_exists('Cache')) return array('Could not find Cache.class.php.');
 
     	self::$goodreads_id = $gid;
         self::$shelf = $shelf;

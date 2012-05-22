@@ -65,6 +65,10 @@ class Lastfm {
     public static function getLovedSongs($username='', $num_songs = 30) {
     
         if (!self::isValidUsername($username)) return array(self::$error);
+        // Check Feeder and Cache classes are accessible
+    	if (!class_exists('Feeder')) return array('Could not find Feeder.class.php.');
+    	if (!class_exists('Cache')) return array('Could not find Cache.class.php.');
+        
     	self::$username = $username;
         self::$num_songs = $num_songs;
         

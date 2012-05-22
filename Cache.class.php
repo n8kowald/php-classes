@@ -19,15 +19,19 @@ class Cache {
     * Initialises settings
     *
     * @staticvar string $cache_dir         Set a directory to save cache files to e.g. /home/user/public_html/cache/
-    *                                      If left blank it will save cache files to the current working directory
+    *                                      If left blank it will save cache files to the calling directory (messier)
     *
     * @staticvar integer $cache_life_secs  Time (in seconds) that cache files should last for
-    * @staticvar string $cache_file        Builds the cache_file string. Format: n8kowald-loved-tracks.cache
+    * @staticvar string $cache_file        Builds the cache_file string.
     */
     public static function init($cache_filename='', $cache_life='') {
-        self::$cache_dir = '';
+        self::$cache_dir = ''; // e.g. /home/user/public_html/cache/
+        if (self::$cache_dir == '') {
+            $path = pathinfo(getcwd());
+            self::$cache_dir = $path['dirname'] . '/' . $path['basename'] . '/';
+        }
         self::$cache_life_secs = $cache_life;
-        self::$cache_file = self::$cache_dir . $cache_filename; 
+        self::$cache_file = self::$cache_dir . $cache_filename;
     }
     
     /**
