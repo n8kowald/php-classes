@@ -77,7 +77,7 @@ class Feeder {
         return $xml;
     }
 
-	/**
+    /**
     * getEntries()
     * Detects feed format: atom or rss. Returns entries for that format
     *

@@ -25,7 +25,7 @@ class Cache {
     * @staticvar string $cache_file        Builds the cache_file string.
     */
     public static function init($cache_filename='', $cache_life='') {
-        self::$cache_dir = ''; // e.g. /home/user/public_html/cache/
+        self::$cache_dir = '';
         if (self::$cache_dir == '') {
             $path = pathinfo(getcwd());
             self::$cache_dir = $path['dirname'] . '/' . $path['basename'] . '/';
