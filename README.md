@@ -13,7 +13,7 @@ Cache filename and cache time (seconds) are set in `Cache::init($cache_filename,
 ### Example
     <?php
     include('Cache.class.php');
-    Cache::init('currently-reading.cache', 86400); <-- 1 day cache life
+    Cache::init('currently-reading.cache', 86400); // <-- 1 day cache life
     if (Cache::cacheFileExists()) {
         // Get contents of a cache file
         echo Cache::getCache();
