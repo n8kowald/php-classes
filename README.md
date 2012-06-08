@@ -77,7 +77,7 @@ Easily display your last.fm 'loved songs' on your website.
     <?php
     include('Cache.class.php');
     include('Feeder.class.php');
-    include('Goodreads.class.php');
+    include('Lastfm.class.php');
     
     $songs = Lastfm::getLovedSongs($username='n8kowald', $num_songs='20');
     $html = '<ul>';
