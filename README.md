@@ -2,7 +2,7 @@ PHP Classes
 ===========
 
 ## Cache.class.php
-A simple caching class. Faster loading data for dynamic content.  
+A simple caching class. Faster loading for dynamic content.  
 
 ### Cache Settings
 Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
