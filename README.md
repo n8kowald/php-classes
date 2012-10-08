@@ -34,7 +34,8 @@ A simple class to get data from an RSS feed.
     $html = "<ul>";
     foreach ($items as $item) {
         $html = '<a href="'.$item['link'].'">'.$item['title'].'</a>';
-    $html .= "</ul>";
+        $html .= "</ul>";
+    }
     echo $html;
     ?>
 
