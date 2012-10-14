@@ -8,8 +8,8 @@
 * @version 1.0
 *
 ************************************************************************/
-class Feeder {
-
+class Feeder 
+{
     private static $feed_url;
     private static $num_items;
     private static $values;
@@ -21,7 +21,8 @@ class Feeder {
     * @param string $value A single value. Taken from the given $values array
     * @return boolean True if prefix. False if not.
     */
-    private static function isPrefix($value) {
+    private static function isPrefix($value) 
+    {
         if (strpos($value, ':') === false) {
             return false;
         } else {
@@ -37,8 +38,10 @@ class Feeder {
     * @param string $value A single value. Taken from the given $values array
     * @return string Value of the prefix
     */
-    private static function getPrefixValue(SimpleXMLElement $element, $value) {
+    private static function getPrefixValue(SimpleXMLElement $element, $value) 
+    {
         $parts = explode(':', $value);
+
         return (string) $element->children($parts[0], true)->$parts[1];
     }
     
@@ -49,7 +52,8 @@ class Feeder {
     * @param SimpleXMLElement $simpleXML A simpleXML object created in Feeder::loadFeed()
     * @return mixed Feed data if found or boolean false if no items found
     */
-    private static function getData(SimpleXMLElement $simpleXML) {
+    private static function getData(SimpleXMLElement $simpleXML) 
+    {
         $data = array();
         $c = 0;
         foreach ($simpleXML as $element) {
@@ -59,6 +63,7 @@ class Feeder {
             }
             $c++;
         }
+
         return (count($data) > 0) ? $data : false;
     }
     
@@ -68,12 +73,14 @@ class Feeder {
     *
     * @return mixed Returns an xml object from a given feed, or false on failure
     */
-    private static function loadFeed() {
+    private static function loadFeed() 
+    {
         $xml = @simplexml_load_file(self::$feed_url, 'SimpleXMLElement', LIBXML_NOCDATA); // Removes CDATA from XML
         if (!$xml) {
             // Feed can't be loaded
         	return false;
         }
+
         return $xml;
     }
 
@@ -83,9 +90,11 @@ class Feeder {
     *
     * @return SimpleXmlElement object containing feed items/entries
     */
-    private static function getEntries() {
+    private static function getEntries() 
+    {
         if (!$xml = self::loadFeed()) return false;
         $root_element = $xml->getName();
+
         return ($root_element == 'rss') ? $xml->channel->item : $xml->entry;
     }
 	
@@ -98,15 +107,15 @@ class Feeder {
     * @param array $values     Array of values to get from the feed. E.g. array('title', 'description', link')
     * @return mixed array of feed data or false if no data found
     */
-    public static function getItems($feed_url='', $num_items=10, $values=array()) {
+    public static function getItems($feed_url='', $num_items=10, $values=array()) 
+    {
         self::$feed_url = $feed_url;
         self::$num_items = $num_items;
         self::$values = $values;
         
         if (!$entries = self::getEntries()) return false;
+
         return self::getData($entries);
     }
 	
 }
-
-?>
