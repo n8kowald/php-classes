@@ -8,7 +8,7 @@ A simple file caching class. Faster loading for dynamic content.
 Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
 If left blank, cache files are saved in the calling directory.   
 
-Cache filename and cache time (seconds) are set in `Cache::init($cache_filename, $cache_life)`
+Cache filename and cache time (seconds) set in `Cache::init($cache_filename, $cache_life)`
 
 ### Example
     <?php
