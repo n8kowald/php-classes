@@ -33,7 +33,8 @@ A simple class to get data from an RSS feed.
     $items = Feeder::getItems('http://ws.audioscrobbler.com/2.0/user/n8kowald/lovedtracks.rss', 10, array('title', 'link'));
     $html = "<ul>";
     foreach ($items as $item) {
-        $html = '<a href="'.$item['link'].'">'.$item['title'].'</a>';
+        $html .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+    }
     $html .= "</ul>";
     echo $html;
     ?>
