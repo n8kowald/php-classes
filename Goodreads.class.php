@@ -8,8 +8,8 @@
 * @version 1.0
 *
 ************************************************************************/
-class Goodreads {
-	
+class Goodreads 
+{
     private static $goodreads_id;
     private static $shelf;
     private static $num_books;
@@ -21,11 +21,13 @@ class Goodreads {
     *
     * @return string $url Goodreads feed to grab books from
     */
-    private static function getGoodreadsFeed() {
+    private static function getGoodreadsFeed() 
+    {
         $url = sprintf("http://www.goodreads.com/review/list_rss/%d?shelf=%s", 
             self::$goodreads_id,
             self::$shelf
         );
+        
         return $url;
     }
 
@@ -37,7 +39,8 @@ class Goodreads {
     * @param array $book_data Array containing book details
     * @return array Returns a formatted array of books
     */
-    private static function formatBookData(Array $book_data) {
+    private static function formatBookData(Array $book_data) 
+    {
         $books = array();
         foreach ($book_data as $value) {
             $book_search = $value['title'] . " " . $value['author_name'];
@@ -45,6 +48,7 @@ class Goodreads {
             $link = '[<a href="http://www.bookdepository.co.uk/search?searchTerm='.$search_qry.'&amp;search=search&amp;a_aid=lowest-price" target="_blank">view</a>]';
             $books[] = $value['title'] . " &mdash; <span class=\"author\">" . $value['author_name'] . "</span> &nbsp;" . $link;
         }
+
         return $books;
     }
 	
@@ -55,7 +59,8 @@ class Goodreads {
     *
     * @return array Returns a nicely formatted array of books
     */
-    private static function getBooksFromShelf() {
+    private static function getBooksFromShelf() 
+    {
         $cache_filename = self::$goodreads_id .'-'. self::$shelf .'.cache';
         $cache_life = 604800; // 1 week
         Cache::init($cache_filename, $cache_life);
@@ -69,6 +74,7 @@ class Goodreads {
         }
         $books = self::formatBookData($book_data);
         Cache::setCache($books);
+
         return $books;
     }
     
@@ -81,7 +87,8 @@ class Goodreads {
     * @return boolean Returns true/false and sets an error message in self::$error if false
     */
 
-    private static function isValidGoodreadsID($goodreads_id) {
+    private static function isValidGoodreadsID($goodreads_id) 
+    {
     	if ($goodreads_id == '') {
     		self::$error = 'Goodreads user ID cannot be blank';
     		return false;
@@ -89,6 +96,7 @@ class Goodreads {
     		self::$error = 'Goodreads user ID needs to be a number';
     		return false;
     	}
+
     	return true;
     }
 
@@ -103,8 +111,8 @@ class Goodreads {
     *
     * @return array Returns an array of formatted books to client code or an error.
     */
-    public static function getBooks($gid='', $shelf='currently-reading', $num_books = 5) {
-    
+    public static function getBooks($gid='', $shelf='currently-reading', $num_books = 5) 
+    {
     	if (!self::isValidGoodreadsID($gid)) return array(self::$error);
     	// Check Feeder and Cache classes are accessible
     	if (!class_exists('Feeder')) return array('Could not find Feeder.class.php.');
@@ -118,5 +126,3 @@ class Goodreads {
     }
 	
 }
-
-?>

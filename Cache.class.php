@@ -8,8 +8,8 @@
 * @version 1.0
 *
 ************************************************************************/
-class Cache {
-
+class Cache 
+{
     private static $cache_dir;
     private static $cache_file;
     private static $cache_life_secs;
@@ -24,7 +24,8 @@ class Cache {
     * @staticvar integer $cache_life_secs  Time (in seconds) that cache files should last for
     * @staticvar string $cache_file        Builds the cache_file string.
     */
-    public static function init($cache_filename='', $cache_life='') {
+    public static function init($cache_filename='', $cache_life='') 
+    {
         self::$cache_dir = '';
         if (self::$cache_dir == '') {
             $path = pathinfo(getcwd());
@@ -40,7 +41,8 @@ class Cache {
     *
     * @return bool True if cache_file exists: False if not
     */
-    public static function cacheFileExists() {
+    public static function cacheFileExists() 
+    {
         if (file_exists(self::$cache_file) && (filemtime(self::$cache_file) > (time() - self::$cache_life_secs))) {
             return true;
         } else {
@@ -54,8 +56,10 @@ class Cache {
     *
     * @return mixed Returns the data stored in the cache file
     */
-    public static function getCache() {
+    public static function getCache() 
+    {
         $data = file_get_contents(self::$cache_file);
+
         return unserialize($data);
     }
     
@@ -65,10 +69,9 @@ class Cache {
     *
     * @param mixed $data Data you want to store in a cache file
     */
-    public static function setCache($data='') {
+    public static function setCache($data='') 
+    {
         $cache_data = serialize($data);
         file_put_contents(self::$cache_file, $cache_data);
     }
 }
-
-?>

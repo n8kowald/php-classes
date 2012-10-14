@@ -8,8 +8,8 @@
 * @version 1.0
 *
 ************************************************************************/
-class Lastfm {
-	
+class Lastfm 
+{
     private static $username;
     private static $num_songs;
     private static $error;
@@ -20,10 +20,10 @@ class Lastfm {
     *
     * @return string $url Last.fm feed to grab loved songs from
     */
-    private static function getLovedSongsFeed() {
-        $url = sprintf("http://ws.audioscrobbler.com/2.0/user/%s/lovedtracks.rss", 
-           self::$username
-        );
+    private static function getLovedSongsFeed() 
+    {
+        $url = sprintf("http://ws.audioscrobbler.com/2.0/user/%s/lovedtracks.rss", self::$username);
+
         return $url;
     }
     
@@ -34,11 +34,13 @@ class Lastfm {
     * @param array $song_data Song data to format
     * @return array $songs Returns formatted songs
     */
-    private static function formatSongData(Array $song_data) {
+    private static function formatSongData(Array $song_data) 
+    {
         $songs = array();
         foreach ($song_data as $song) {
             $songs[] = "<a href=\"".$song['link']."\">".$song['title']."</a>";
         }
+
         return $songs;
     }
     
@@ -48,11 +50,13 @@ class Lastfm {
     *
     * @return boolean True if name is not blank, False if blank
     */
-    private static function isValidUsername($username) {
+    private static function isValidUsername($username) 
+    {
     	if ($username == '') {
     		self::$error = 'Username cannot be blank';
     		return false;
     	}
+
     	return true;
     }
     
@@ -62,8 +66,8 @@ class Lastfm {
     *
     * @return array $songs Returns formatted songs
     */
-    public static function getLovedSongs($username='', $num_songs = 30) {
-    
+    public static function getLovedSongs($username='', $num_songs = 30) 
+    {
         if (!self::isValidUsername($username)) return array(self::$error);
         // Check Feeder and Cache classes are accessible
     	if (!class_exists('Feeder')) return array('Could not find Feeder.class.php.');
@@ -86,9 +90,7 @@ class Lastfm {
         }
         $songs = self::formatSongData($song_data);
         Cache::setCache($songs);
+
         return $songs;
     }
-
 }
-
-?>

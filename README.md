@@ -2,7 +2,7 @@ PHP Classes
 ===========
 
 ## Cache.class.php
-A simple caching class. Faster loading for dynamic content.  
+A simple file caching class. Faster loading for dynamic content.  
 
 ### Cache Settings
 Set a directory for cache files inside `Cache::init()`. This directory must have write permissions.   
@@ -22,7 +22,6 @@ Cache filename and cache time (seconds) are set in `Cache::init($cache_filename,
         $books = array('Flowers for Algernon - Daniel Keyes', 'The Stranger - Albert Camus');
         Cache::setCache($books);
     }
-    ?>
 
 ## Feeder.class.php
 A simple class to get data from an RSS feed.
@@ -37,7 +36,6 @@ A simple class to get data from an RSS feed.
     }
     $html .= "</ul>";
     echo $html;
-    ?>
 
 ## Goodreads.class.php
 Easily display your Goodreads books on your website.  
@@ -87,7 +85,6 @@ Easily display your last.fm 'loved songs' on your website.
     }
     $html .= '</ul>';
     echo $html;
-    ?>
 
 
 
